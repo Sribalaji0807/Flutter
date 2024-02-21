@@ -1,0 +1,16 @@
+[
+  {
+    "latitude": 13.082680,
+    "longitude": 80.270721,
+    "name":"lake",
+    "ppm":"444",
+    "title": "Marker 1"
+  },
+  {
+    "latitude": 13.15359,
+    "longitude": 80.17007,
+    "name":"lake2",
+    "ppm":"444",
+    "title": "Marker 2"
+  }
+]
