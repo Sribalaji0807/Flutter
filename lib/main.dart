@@ -1,6 +1,12 @@
+import 'package:chatapp/firebase/auth.dart';
+import 'package:chatapp/firebase_options.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
-void main() {
+void main() async {
+ WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(    options: DefaultFirebaseOptions.currentPlatform,
+); 
   runApp(const MyApp());
 }
 
@@ -38,6 +44,7 @@ class _EntryPageState extends State<EntryPage> {
   final _nameController = TextEditingController();
   final _phoneController = TextEditingController();
 
+  Authservice auth = Authservice();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,7 +56,8 @@ class _EntryPageState extends State<EntryPage> {
             child: Container(
               decoration: const BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage('assets/image1.png'), // Your background image asset
+                  image: AssetImage(
+                      'assets/image1.png'), // Your background image asset
                   fit: BoxFit.cover,
                 ),
               ),
@@ -60,8 +68,9 @@ class _EntryPageState extends State<EntryPage> {
               width: 500,
               padding: const EdgeInsets.all(35),
               decoration: BoxDecoration(
-                 // Adjust opacity as needed
-                borderRadius: BorderRadius.circular(20), // Rounded corners for the container
+                // Adjust opacity as needed
+                borderRadius: BorderRadius.circular(
+                    20), // Rounded corners for the container
                 boxShadow: [
                   BoxShadow(
                     color: Colors.grey.withOpacity(0),
@@ -83,7 +92,8 @@ class _EntryPageState extends State<EntryPage> {
                         borderSide: BorderSide(color: Colors.blue),
                       ),
                       filled: true,
-                      fillColor: Colors.white.withOpacity(0.3), // Adjust opacity as needed
+                      fillColor: Colors.white
+                          .withOpacity(0.3), // Adjust opacity as needed
                       contentPadding: const EdgeInsets.symmetric(
                         vertical: 15,
                         horizontal: 20,
@@ -117,7 +127,8 @@ class _EntryPageState extends State<EntryPage> {
                         borderSide: BorderSide(color: Colors.blue),
                       ),
                       filled: true,
-                      fillColor: Colors.white.withOpacity(0.3), // Adjust opacity as needed
+                      fillColor: Colors.white
+                          .withOpacity(0.3), // Adjust opacity as needed
                       contentPadding: const EdgeInsets.symmetric(
                         vertical: 15,
                         horizontal: 20,
@@ -172,9 +183,11 @@ class _EntryPageState extends State<EntryPage> {
     );
   }
 
+  void _onFormSubmitted() async {
+        bool isRegistered = await auth.register(_nameController.text, _phoneController.text);
 
-
-  void _onFormSubmitted() {
+    if (isRegistered) {
+      
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -184,6 +197,7 @@ class _EntryPageState extends State<EntryPage> {
         ),
       ),
     );
+    }
   }
 
   final _phoneFocusNode = FocusNode();
@@ -213,7 +227,8 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _selectedIndex = 0;
-  static const TextStyle optionStyle = TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+  static const TextStyle optionStyle =
+      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static const List<Widget> _widgetOptions = <Widget>[
     Center(child: Text('Home', style: optionStyle)),
     Center(child: Text('ChatBot', style: optionStyle)),
